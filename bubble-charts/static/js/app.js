@@ -1,6 +1,6 @@
 // Build the metadata panel
 function buildMetadata(sample) {
-  d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
+  d3.json("https://juliocezarcarneiro.github.io/GDP-per-capita-project/bubble-charts/countries-data.json").then((data) => {
 
 // get the metadata field
 let metadata = data.metadata;
@@ -26,7 +26,7 @@ let metadata = data.metadata;
 
 // function to build both charts
 function buildCharts(sample) {
-  d3.json("https://static.bc-edx.com/data/dl-1-2/m14/lms/starter/samples.json").then((data) => {
+  d3.json("https://juliocezarcarneiro.github.io/GDP-per-capita-project/bubble-charts/countries-data.json").then((data) => {
 
     // Get the samples field
     let samples = data.samples;
@@ -36,21 +36,21 @@ function buildCharts(sample) {
     let result = resultArray[0];
 
     // Get the otu_ids, otu_labels, and sample_values
-    let otu_ids = result.otu_ids;
-    let otu_labels = result.otu_labels;
+    let GDP_per_capita = result.otu_ids;
+    let Health_spending_per_capita = result.otu_labels;
     let sample_values = result.sample_values;
 
     // Build a Bubble Chart
     let bubbleLayout = {
-      title: "Bacteria Cultures Per Sample",
+      title: "GDP per Capita vs. Health Spending",
       hovermode: "closest",
-      xaxis: { title: "OTU ID" },
+      xaxis: { title: "GDP" },
       margin: { t: 30 }
     };
 
     let bubbleData = [{
-      x: otu_ids,
-      y: sample_values,
+      x: GDP_per_capita
+      y: Health_spending_per_capita,
       text: otu_labels,
       mode: "markers",
       marker: {
