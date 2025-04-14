@@ -20,8 +20,11 @@
       background-color: #0d6efd;
       color: white;
     }
-    #bubble {
+    #bubble, #bar {
       height: 600px;
+    }
+    .chart-container {
+      margin-bottom: 30px;
     }
   </style>
 </head>
@@ -49,6 +52,19 @@
     </div>
     
     <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h4>Top 10 Countries by GDP per Capita</h4>
+          </div>
+          <div class="card-body">
+            <div id="bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mt-4">
       <div class="col-md-12 text-center">
         <p class="text-muted">Data source: World Bank Indicators</p>
       </div>
@@ -67,18 +83,22 @@
 
     // Build the bubble chart
     function buildBubbleChart() {
-    // Load the data
-      d3.json("Resources/countries-data.json")
-        .then((data) => {
+      const dataUrl = "Resources/countries-data.json";
     
+      // Load the data
+      d3.json(dataUrl)
+        .then((data) => {
           // Filter out entries with missing data
           data = data.filter(d => d.GDP_per_capita && d.Health_spending_per_capita);
-          renderChart(data);
+          renderCharts(data);
         })
         .catch(error => {
           console.warn("Primary data failed, trying backup...", error);
           d3.json(backupUrl)
             .then(transformBackupData)
+            .then(data => {
+              renderCharts(data);
+            })
             .catch(backupError => {
               console.error("Both data sources failed:", backupError);
               showError(backupError);
@@ -89,14 +109,20 @@
       function transformBackupData(backupData) {
         console.log("Using backup data with transformation");
         return backupData.map(d => ({
-          "Country Name": d.country || d.country,
-          "GDP_per_capita": d.gdpPercap || d.income,
-          "Health_spending_per_capita": (d.pop || d.lifeExp) * 100 // Example transformation
+          "Country Name": d.country,
+          "GDP_per_capita": d.gdpPercap,
+          "Health_spending_per_capita": d.lifeExp * 100 // Example transformation
         }));
       }
 
-      // Function to render the chart
-      function renderChart(data) {
+      // Function to render both charts
+      function renderCharts(data) {
+        renderBubbleChart(data);
+        renderBarChart(data);
+      }
+
+      // Function to render the bubble chart
+      function renderBubbleChart(data) {
         let countries = data.map(d => d["Country Name"]);
         let gdp = data.map(d => d.GDP_per_capita);
         let health = data.map(d => d.Health_spending_per_capita);
@@ -183,6 +209,75 @@
 
         // Render the chart
         Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+      }
+
+      // Function to render the bar chart
+      function renderBarChart(data) {
+        // Sort data by GDP per capita (descending) and take top 10
+        const sortedData = [...data]
+          .sort((a, b) => b.GDP_per_capita - a.GDP_per_capita)
+          .slice(0, 10);
+        
+        const countries = sortedData.map(d => d["Country Name"]);
+        const gdpValues = sortedData.map(d => d.GDP_per_capita);
+        
+        // Bar chart data
+        const barData = [{
+          x: countries,
+          y: gdpValues,
+          type: 'bar',
+          marker: {
+            color: 'rgba(55, 128, 191, 0.7)',
+            line: {
+              color: 'rgba(55, 128, 191, 1.0)',
+              width: 1
+            }
+          },
+          text: gdpValues.map(v => `$${v.toLocaleString()}`),
+          textposition: 'auto',
+          hoverinfo: 'text',
+          hovertext: countries.map((c, i) => 
+            `<b>${c}</b><br>GDP per capita: $${gdpValues[i].toLocaleString()}`
+          )
+        }];
+        
+        // Bar chart layout
+        const barLayout = {
+          title: {
+            text: 'Top 10 Countries by GDP per Capita',
+            font: {
+              size: 18,
+              family: 'Arial'
+            }
+          },
+          xaxis: {
+            title: {
+              text: 'Country',
+              font: {
+                size: 14
+              }
+            },
+            tickangle: -45
+          },
+          yaxis: {
+            title: {
+              text: 'GDP per Capita (USD)',
+              font: {
+                size: 14
+              }
+            },
+            tickprefix: '$',
+            gridcolor: '#eee',
+            zeroline: false
+          },
+          margin: { t: 80, l: 80, r: 80, b: 120 },
+          height: 550,
+          plot_bgcolor: 'rgba(240,240,240,0.8)',
+          paper_bgcolor: 'rgba(240,240,240,0.3)'
+        };
+        
+        // Render the bar chart
+        Plotly.newPlot("bar", barData, barLayout);
       }
 
       // Function to show error message
