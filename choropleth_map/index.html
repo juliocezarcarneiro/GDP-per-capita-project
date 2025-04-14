@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GINI Choropleth Map</title>
+
+  <!-- Load Leaflet CSS for map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <!-- Our custom CSS for styling (animations, spinner, etc.) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Loading spinner while map loads -->
+  <div id="loader">Loading map...</div>
+
+  <!-- Title and intro at top center -->
+  <div style="text-align: center; padding: 10px; font-family: Arial, sans-serif;">
+    <h2>Global GINI Index Choropleth Map</h2>
+    <p>Select a year to view global income inequality, GDP, and population</p>
+  </div>
+
+  <!-- Dropdown selector for choosing year -->
+  <div style="
+    position: absolute;
+    top: 90px;
+    left: 20px;
+    z-index: 999;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    font-family: Arial, sans-serif;
+    animation: slideIn 0.7s ease-out;
+  ">
+    <label for="yearSelect"><strong>Year:</strong></label>
+    <select id="yearSelect" style="padding: 5px; font-size: 14px;"></select>
+  </div>
+
+  <!-- The choropleth map itself -->
+  <div id="map" style="height: 90vh;"></div>
+
+  <!-- Color scale legend for GINI index -->
+  <div style="
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    z-index: 999;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  ">
+    <strong>GINI Index Scale</strong><br>
+    <div style="margin-top: 5px;">
+      <div style="background:#d4eeff;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
+      Low Inequality (under 30)
+    </div>
+    <div>
+      <div style="background:#74a9cf;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
+      Moderate Inequality (30–39)
+    </div>
+    <div>
+      <div style="background:#0570b0;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
+      High Inequality (40+)
+    </div>
+    <div>
+      <div style="background:#ccc;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
+      No Data
+    </div>
+  </div>
+
+  <!-- Group credits at bottom right -->
+  <div style="
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    text-align: right;
+    line-height: 1.6;
+  ">
+    <strong>Project By:</strong><br><br>
+    <span style="color: #ff8800;">Anqa Javed</span><br>
+    <span style="color: #4da6ff;">Humaira Enayetullah</span><br>
+    <span style="color: #009966;">Julio Carneiro</span><br>
+    <span style="color: #4da6ff;">Shahab Eshghifard</span>
+  </div>
+
+  <!-- Load Leaflet JS library -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Load our map script -->
+  <script src="map.js"></script>
+</body>
+</html>
