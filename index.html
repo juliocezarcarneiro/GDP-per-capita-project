@@ -92,6 +92,7 @@
       // Load the data
       d3.json(dataUrl)
         .then((data) => {
+          console.log("Raw data sample:", data.slice(0, 10));
           // Filter out entries with missing data
           data = data.filter(d => d.GDP_per_capita && d.Health_spending_per_capita);
           renderCharts(data);
