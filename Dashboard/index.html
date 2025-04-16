@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Economic Indicators Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding: 1rem;
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .dashboard-header {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      background: white;
+      border: none;
+      margin-bottom: 2rem;
+      height: 100%;
+    }
+    .card-title {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+    }
+    .chart-container {
+      height: 400px;
+      width: 100%;
+    }
+    .small-chart-container {
+      height: 300px;
+      width: 100%;
+    }
+    .insight-card {
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+    .insight-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .controls-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      color: #2c3e50;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 0.5rem;
+    }
+    .form-label {
+      font-weight: 500;
+      color: #2c3e50;
+    }
+    .card-footer {
+      background: transparent;
+      border-top: none;
+      padding: 1rem 0 0;
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+    .analysis-card {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-left: 4px solid #3498db;
+    }
+    .analysis-point {
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 3px solid #3498db;
+    }
+    .analysis-point h5 {
+      color: #2c3e50;
+      font-size: 1.1rem;
+    }
+    .chart-description {
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      border-left: 3px solid #3498db;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-header text-center">
+      <h1>Global Wealth and Wellbeing:</h1>
+      <p class="lead">A deeper data dive into GDP, health, and income inequality in different countries</p>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-card">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="yearSelect" class="form-label">Select Year:</label>
+          <select id="yearSelect" class="form-select"></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Analysis Section -->
+    <h2 class="section-title">Quick Analysis</h2>
+    <div class="card analysis-card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="analysis-point">
+              <h5><i class="fas fa-chart-line"></i> Global Wealth Trend</h5>
+              <p>The line chart shows how average wealth (GDP per person) has changed over time. Generally, we see an upward trend, meaning people worldwide are becoming wealthier on average.</p>
+            </div>
+            <div class="analysis-point">
+              <h5><i class="fas fa-users"></i> Population Density</h5>
+              <p>Densely populated countries (many people per square km) tend to be either very wealthy (like Singapore) or developing (like Bangladesh). Wealthy dense countries manage space efficiently.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="analysis-point">
+              <h5><i class="fas fa-heartbeat"></i> Health Spending</h5>
+              <p>Wealthier countries typically spend more on healthcare per person. The bubble chart shows this relationship - larger bubbles (more health spending) appear higher up (wealthier countries).</p>
+            </div>
+            <div class="analysis-point">
+              <h5><i class="fas fa-lightbulb"></i> Key Insight</h5>
+              <p>There's no perfect relationship between wealth and density. Some wealthy countries are dense (Singapore), others are spacious (USA). Wealth enables countries to manage density challenges better.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Insights Section -->
+    <h2 class="section-title">Key Insights</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card insight-card">
+          <div class="card-title">Wealthiest Nations</div>
+          <div class="small-chart-container" id="topGDPChart"></div>
+          <div class="chart-description">
+            <p><strong>What this shows:</strong> The top 3 countries with the highest GDP per capita (average wealth per person).</p>
+            <p><strong>Why it matters:</strong> GDP per capita indicates the standard of living - higher values generally mean better quality of life.</p>
+            <p><strong>Tip:</strong> Compare these with the health spending chart to see if wealth correlates with healthcare investment.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card insight-card">
+          <div class="card-title">Most Densely Populated</div>
+          <div class="small-chart-container" id="topDensityChart"></div>
+          <div class="chart-description">
+            <p><strong>What this shows:</strong> The top 3 countries with the most people per square kilometer.</p>
+            <p><strong>Why it matters:</strong> High density can strain resources but also enables economic efficiency in cities.</p>
+            <p><strong>Tip:</strong> Notice if any countries appear in both this and the wealthiest nations list.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card insight-card">
+          <div class="card-title">Highest Health Spenders</div>
+          <div class="small-chart-container" id="topHealthChart"></div>
+          <div class="chart-description">
+            <p><strong>What this shows:</strong> The top 3 countries spending the most on healthcare per person.</p>
+            <p><strong>Why it matters:</strong> Health spending often correlates with better health outcomes and life expectancy.</p>
+            <p><strong>Tip:</strong> Compare with the wealthiest nations - are they the same countries?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Economic Trends Section -->
+    <h2 class="section-title">Economic Trends Over Time</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-title">Global GDP per Capita Over Time</div>
+          <div class="chart-container" id="lineGDP"></div>
+          <div class="chart-description">
+            <p><strong>What this shows:</strong> The average GDP per person worldwide across years.</p>
+            <p><strong>Why it matters:</strong> Shows whether global living standards are improving over time.</p>
+            <p><strong>Key observation:</strong> Despite temporary dips (like during economic crises), the long-term trend is upward.</p>
+            <p><strong>Limitation:</strong> Averages hide inequality - some countries may improve faster than others.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparative Analysis Section -->
+    <h2 class="section-title">Comparative Analysis</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-title">GDP vs. Population Density</div>
+          <div class="chart-container" id="barGDPvsDensity"></div>
+          <div class="chart-description">
+            <p><strong>What this shows:</strong> How the wealthiest countries compare in terms of population density.</p>
+            <p><strong>Why it matters:</strong> Reveals whether wealth is associated with crowded or spacious living conditions.</p>
+            <p><strong>Key observation:</strong> There's no clear pattern - wealthy countries exist at various density levels.</p>
+            <p><strong>Tip:</strong> Look for outliers - wealthy countries with very high or very low density.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-title">GDP vs. Population Density with Health Spending</div>
+          <div class="chart-container" id="bubbleGDPvsDensity"></div>
+          <div class="chart-description">
+            <p><strong>What this shows:</strong> Relationship between wealth (vertical), density (horizontal), and health spending (bubble size).</p>
+            <p><strong>Why it matters:</strong> Reveals how these three important factors interact across countries.</p>
+            <p><strong>Key patterns:</strong> 
+              <ul>
+                <li>Bubbles generally get larger as you move up (wealthier countries spend more on health)</li>
+                <li>No clear left-right pattern (density doesn't strongly predict wealth)</li>
+              </ul>
+            </p>
+            <p><strong>How to read:</strong> Hover over bubbles to see country details.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Authors Section -->
+    <div class="card mt-5">
+      <div class="card-body text-center">
+        <h5 class="card-title">Authors</h5>
+        <p class="card-text">Anqa Javed, Humaira Enayetullah, Julio Carneiro, Shahab Eshghifard</p>
+        <p class="card-text">Bootcamp UofT and edX</p>
+      </div>
+    </div>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <script>
+    const dataURL = "https://juliocezarcarneiro.github.io/test-repo/Resources/countries-data.json";
+    let allData;
+    let selectedYear = "2000";  // Default to the first year
+  
+    // Color scheme
+    const colors = {
+      gdp: '#3498db',
+      density: '#e74c3c',
+      health: '#2ecc71',
+      background: '#f8f9fa'
+    };
+
+    // Enhanced margin configuration
+    const marginSettings = {
+      small: { t: 40, b: 60, l: 60, r: 20, pad: 0 },
+      large: { t: 40, b: 80, l: 80, r: 30, pad: 0 }
+    };
+
+    // Fetching data from the URL
+    d3.json(dataURL).then(data => {
+      if (data) {
+        console.log("Data successfully loaded:", data);
+        allData = data;
+        populateYearDropdown(data);
+        updateAllCharts();
+      } else {
+        console.error("No data received from the URL.");
+      }
+    }).catch(err => {
+      console.error("Error fetching data:", err);
+    });
+  
+    function populateYearDropdown(data) {
+      const years = [...new Set(data.map(d => d.Year))].sort();
+      const yearSelect = d3.select("#yearSelect");
+  
+      years.forEach(year => {
+        yearSelect.append("option").text(year).attr("value", year);
+      });
+      yearSelect.property("value", selectedYear);
+  
+      yearSelect.on("change", function () {
+        selectedYear = this.value;
+        updateAllCharts();
+      });
+    }
+  
+    function filterData() {
+      return allData.filter(d => 
+        d.Year == selectedYear &&
+        d["GDP per Capita"] !== "No data" &&
+        d["Health_Expenditure"] !== "No data" && 
+        d["Population density per square kilometer"] !== "No data"
+      );
+    }
+  
+    function updateAllCharts() {
+      const yearData = filterData();
+      if (yearData.length > 0) {
+        drawLineGDPChart();
+        drawBarGDPvsDensityChart(yearData);
+        drawBubbleGDPvsDensityChart(yearData);
+        drawMiniCharts(yearData);
+      } else {
+        console.warn("No data available for the selected year.");
+      }
+    }
+  
+    function drawMiniCharts(data) {
+      // GDP Chart
+      const topGDP = data.sort((a, b) => b["GDP per Capita"] - a["GDP per Capita"]).slice(0, 5);
+      Plotly.newPlot("topGDPChart", [{
+        x: topGDP.map(d => d.Country),
+        y: topGDP.map(d => d["GDP per Capita"]),
+        type: 'bar',
+        marker: { color: colors.gdp }
+      }], {
+        margin: marginSettings.small,
+        yaxis: { title: 'USD' },
+        xaxis: { automargin: true }
+      }, { responsive: true });
+
+      // Density Chart
+      const topDensity = data.sort((a, b) => b["Population Density"] - a["Population Density"]).slice(0, 5);
+      Plotly.newPlot("topDensityChart", [{
+        x: topDensity.map(d => d.Country),
+        y: topDensity.map(d => d["Population Density"]),
+        type: 'bar',
+        marker: { color: colors.density }
+      }], {
+        margin: marginSettings.small,
+        yaxis: { title: 'People/km²' },
+        xaxis: { automargin: true }
+      }, { responsive: true });
+
+      // Health Chart
+      const topHealth = data.sort((a, b) => b["Health Expenditure"] - a["Health Expenditure"]).slice(0, 5);
+      Plotly.newPlot("topHealthChart", [{
+        x: topHealth.map(d => d.Country),
+        y: topHealth.map(d => d["Health Expenditure"]),
+        type: 'bar',
+        marker: { color: colors.health }
+      }], {
+        margin: marginSettings.small,
+        yaxis: { title: 'USD' },
+        xaxis: { automargin: true }
+      }, { responsive: true });
+    }
+  
+    function drawLineGDPChart() {
+      const grouped = d3.rollup(allData, v => d3.mean(v, d => d["GDP per Capita"]), d => d.Year);
+      const years = Array.from(grouped.keys()).sort();
+      const values = years.map(year => grouped.get(year));
+  
+      Plotly.newPlot("lineGDP", [{
+        x: years,
+        y: values,
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: colors.gdp, width: 3 },
+        marker: { size: 8 }
+      }], {
+        margin: marginSettings.large,
+        xaxis: { title: 'Year' },
+        yaxis: { title: 'GDP per Capita (USD)' },
+        plot_bgcolor: colors.background
+      }, { responsive: true });
+    }
+  
+    function drawBarGDPvsDensityChart(data) {
+      // Sort by GDP and take top 15 for better readability
+      const topCountries = data.sort((a, b) => b["GDP per Capita"] - a["GDP per Capita"]).slice(0, 15);
+  
+      Plotly.newPlot("barGDPvsDensity", [{
+        x: topCountries.map(d => d.Country),
+        y: topCountries.map(d => d["GDP per Capita"]),
+        type: 'bar',
+        marker: { color: colors.gdp }
+      }], {
+        margin: { ...marginSettings.large, b: 100 }, // Extra bottom margin for x-axis labels
+        xaxis: { 
+          title: 'Country',
+          tickangle: -45,
+          automargin: true
+        },
+        yaxis: { title: 'GDP per Capita (USD)' },
+        plot_bgcolor: colors.background
+      }, { responsive: true });
+    }
+  
+    function drawBubbleGDPvsDensityChart(data) {
+  // Ensure the data is filtered and populated correctly
+  data = data.filter(d => d["GDP per Capita"] !== null && d["Health Expenditure"] !== null);
+  
+  const trace = {
+    x: data.map(d => +d["GDP per Capita"]),
+    y: data.map(d => +d["Health Expenditure"]),
+    text: data.map(d => d["Country"]),
+    mode: 'markers',
+    marker: {
+      size: data.map(d => +d["Population"] / 100),
+      sizemode: 'area',
+      sizeref: 0.05 * Math.max(...data.map(d => +d["Population"])) / (100**2),
+      sizemin: 4,
+      color: data.map(d => +d["Population"]),
+      colorscale: 'Rainbow',
+      showscale: true,
+      colorbar: { title: "Population" }
+    },
+    type: 'scatter'
+  };
+
+  const layout = {
+    title: 'GDP per Capita vs Health Spending',
+    xaxis: { title: 'GDP per Capita (USD)', type: 'log' },
+    yaxis: { title: 'Health Spending per person',type: 'log' },
+    margin: marginSettings.large,
+    hovermode: 'closest'
+  };
+
+  Plotly.newPlot('bubbleGDPvsDensity', [trace], layout, { responsive: true });
+}
+
+</script>
+</body>
+</html>
