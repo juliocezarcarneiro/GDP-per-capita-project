@@ -1,104 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GINI Choropleth Map</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visualizing Global Wealth Gaps 🌍</title>
 
-  <!-- Load Leaflet CSS for map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Load Leaflet CSS for the interactive map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-  <!-- Our custom CSS for styling (animations, spinner, etc.) -->
+  <!-- Load Chart.js library for drawing bar & line charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS for styling this dashboard -->
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <div class="container">
 
-  <!-- Loading spinner while map loads -->
-  <div id="loader">Loading map...</div>
+    <!-- ====== Title and Subtitle ====== -->
+    <h1 class="main-title">Visualizing Global Wealth Gaps 🌍</h1>
 
-  <!-- Title and intro at top center -->
-  <div style="text-align: center; padding: 10px; font-family: Arial, sans-serif;">
-    <h2>Global GINI Index Choropleth Map</h2>
-    <p>Select a year to view global income inequality, GDP, and population</p>
+    <!-- Descriptive subtitle split across two lines -->
+    <p class="subtitle">
+      Choropleth + Chart Dashboard <br>
+      <span class="sub-highlight">using GINI, GDP, Health, and Population (2000–2022)</span>
+    </p>
+
+    <!-- ====== Year Range Slider ====== -->
+    <div class="slider-container">
+      <label for="yearSlider">Select Year:</label>
+      <input type="range" id="yearSlider" min="2000" max="2022" value="2000" />
+      <span id="selectedYear">2000</span>
+    </div>
+
+    <!-- ====== Choropleth Map Section ====== -->
+    <div id="map"></div>
+
+    <!-- ====== Dual Chart Section ====== -->
+    <div class="chart-row">
+
+      <!-- === Left Side: Bar Chart === -->
+      <div class="chart-half">
+        <h2>Top 10 Countries by GINI Index</h2>
+        <canvas id="giniChart"></canvas>
+      </div>
+
+      <!-- === Right Side: Line Chart for GINI Trend === -->
+      <div class="chart-half">
+        <h2>GINI Index Over Time</h2>
+
+        <!-- Dropdown to choose country -->
+        <label for="countrySelect">Select Country:</label>
+        <select id="countrySelect">
+          <!-- This will be filled dynamically using JavaScript -->
+        </select>
+
+        <!-- Canvas for the line chart -->
+        <canvas id="giniLineChart"></canvas>
+      </div>
+    </div>
+
+  
   </div>
 
-  <!-- Dropdown selector for choosing year -->
-  <div style="
-    position: absolute;
-    top: 90px;
-    left: 20px;
-    z-index: 999;
-    background: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    font-family: Arial, sans-serif;
-    animation: slideIn 0.7s ease-out;
-  ">
-    <label for="yearSelect"><strong>Year:</strong></label>
-    <select id="yearSelect" style="padding: 5px; font-size: 14px;"></select>
-  </div>
+  <!-- Leaflet JS for Map -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- The choropleth map itself -->
-  <div id="map" style="height: 90vh;"></div>
-
-  <!-- Color scale legend for GINI index -->
-  <div style="
-    position: absolute;
-    bottom: 30px;
-    left: 20px;
-    z-index: 999;
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
-  ">
-    <strong>GINI Index Scale</strong><br>
-    <div style="margin-top: 5px;">
-      <div style="background:#d4eeff;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
-      Low Inequality (under 30)
-    </div>
-    <div>
-      <div style="background:#74a9cf;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
-      Moderate Inequality (30–39)
-    </div>
-    <div>
-      <div style="background:#0570b0;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
-      High Inequality (40+)
-    </div>
-    <div>
-      <div style="background:#ccc;width:20px;height:20px;display:inline-block;margin-right:5px;"></div>
-      No Data
-    </div>
-  </div>
-
-  <!-- Group credits at bottom right -->
-  <div style="
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
-    z-index: 9999;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    text-align: right;
-    line-height: 1.6;
-  ">
-    <strong>Project By:</strong><br><br>
-    <span style="color: #ff8800;">Anqa Javed</span><br>
-    <span style="color: #4da6ff;">Humaira Enayetullah</span><br>
-    <span style="color: #009966;">Julio Carneiro</span><br>
-    <span style="color: #4da6ff;">Shahab Eshghifard</span>
-  </div>
-
-  <!-- Load Leaflet JS library -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <!-- Load our map script -->
+  <!-- Your custom JavaScript files -->
   <script src="map.js"></script>
+  <script src="chart.js"></script>
 </body>
 </html>

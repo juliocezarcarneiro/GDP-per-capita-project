@@ -1,129 +1,82 @@
-// Step 1: Set up the base map and center it on the world
-let myMap = L.map('map').setView([20, 0], 2);
+// === Choropleth Map Script with Final GINI Styling ===
 
-// Step 2: Add the background map layer (tiles from OpenStreetMap)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 6,
-  attribution: '© OpenStreetMap'
-}).addTo(myMap);
+// Step 1: Create map centered globally
+let map = L.map("map").setView([20, 0], 2); // [Latitude, Longitude], Zoom level
 
-// Step 3: Fix some country names so they match in both datasets
-const nameFixes = {
-  "United States of America": "United States",
-  "Russian Federation": "Russia",
-  "Korea, Republic of": "South Korea",
-  "Iran, Islamic Republic of": "Iran",
-  "Egypt, Arab Republic": "Egypt",
-  "Venezuela, RB": "Venezuela",
-  "Vietnam": "Viet Nam",
-  "Bahamas, The": "Bahamas",
-  "Gambia, The": "Gambia",
-  "Yemen, Rep.": "Yemen",
-  "Czechia": "Czech Republic",
-  "Slovak Republic": "Slovakia",
-  "Syrian Arab Republic": "Syria",
-  "Brunei Darussalam": "Brunei",
-  "Lao PDR": "Laos",
-  "Hong Kong SAR, China": "Hong Kong",
-  "Macedonia, FYR": "North Macedonia",
-  "Bolivia (Plurinational State of)": "Bolivia",
-  "Tanzania, United Republic of": "Tanzania",
-  "Taiwan, Province of China": "Taiwan"
-};
+// Step 2: Add the background map tiles (from OpenStreetMap)
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-// Step 4: Create variables to store the data and map layer
-let mergedData = [];
-let geoLayer = null;
+// Step 3: Load the cleaned JSON data
+fetch("choropleth_map_clean.json")
+  .then(response => response.json())
+  .then(data => {
+    const slider = document.getElementById("yearSlider");
+    const selectedYear = document.getElementById("selectedYear");
 
-// Step 5: Load both our dataset (JSON) and the world map (GeoJSON)
-Promise.all([
-  fetch("merged_data_2002_2022_final.json").then(res => res.json()),
-  fetch("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json").then(res => res.json())
-]).then(([jsonData, geoData]) => {
-  mergedData = jsonData;
+    let geojsonLayer; // This will hold our map layer
 
-  // Step 6: Fill the year dropdown with options
-  const years = [...new Set(mergedData.map(row => row.Year))].sort();
-  const dropdown = document.getElementById("yearSelect");
-
-  years.forEach(year => {
-    const option = document.createElement("option");
-    option.value = year;
-    option.text = year;
-    dropdown.appendChild(option);
-  });
-
-  // Set the default year to 2022
-  dropdown.value = 2022;
-
-  // Show the first version of the map
-  renderMap(geoData, 2022);
-
-  // When dropdown changes, update the map
-  dropdown.addEventListener("change", () => {
-    const selectedYear = parseInt(dropdown.value);
-    renderMap(geoData, selectedYear);
-  });
-});
-
-// Step 7: Function that draws the map based on year
-function renderMap(geoData, selectedYear) {
-  // Remove old map layer (if any)
-  if (geoLayer) {
-    myMap.removeLayer(geoLayer);
-  }
-
-  // Create a new map layer with country shapes and color them by GINI
-  geoLayer = L.geoJSON(geoData, {
-    style: function (feature) {
-      let geoName = feature.properties.name;
-      let fixedName = nameFixes[geoName] || geoName;
-
-      // Find the data for the selected year and country
-      let match = mergedData.find(row => row["Country Name"] === fixedName && row.Year === selectedYear);
-      let gini = match ? match.GINI_index : null;
-
-      // Pick color based on GINI value
-      let fillColor;
-      if (gini === null) {
-        fillColor = "#ccc"; // Gray for no data
-      } else if (gini < 30) {
-        fillColor = "#d4eeff"; // Light blue for low inequality
-      } else if (gini < 40) {
-        fillColor = "#74a9cf"; // Medium blue for moderate inequality
-      } else {
-        fillColor = "#0570b0"; // Dark blue for high inequality
-      }
-
-      return {
-        fillColor: fillColor,
-        color: "#999",
-        weight: 1,
-        fillOpacity: 0.8
-      };
-    },
-
-    // Step 8: Add popup to each country
-    onEachFeature: function (feature, layer) {
-      let geoName = feature.properties.name;
-      let fixedName = nameFixes[geoName] || geoName;
-      let match = mergedData.find(row => row["Country Name"] === fixedName && row.Year === selectedYear);
-
-      let gini = match && match.GINI_index !== null ? match.GINI_index : "No data";
-      let gdp = match && match.GDP_per_capita !== null ? `$${match.GDP_per_capita.toLocaleString()}` : "No data";
-      let pop = match && match.Population !== null ? match.Population.toLocaleString() : "No data";
-
-      layer.bindPopup(`
-        <strong>${fixedName}</strong><br>
-        Year: ${selectedYear}<br>
-        GINI Index: ${gini}<br>
-        GDP per Capita: ${gdp}<br>
-        Population: ${pop}
-      `);
+    // === Step 4: Color Function Based on GINI Value ===
+    function getColor(gini) {
+      if (gini === null || gini === "No data") return "#d9d9d9"; // gray for missing
+      gini = parseFloat(gini);
+      if (gini >= 40) return "#2171b5";        // High inequality (dark blue)
+      if (gini >= 30) return "#6baed6";        // Moderate inequality
+      if (gini < 30)  return "#c6dbef";        // Low inequality (light blue)
+      return "#f7fbff";                        // fallback (very pale blue)
     }
 
-  }).addTo(myMap);
-}
+    // === Step 5: Function to Draw or Update the Map Layer ===
+    function updateMap(year) {
+      // Remove old layer before adding a new one
+      if (geojsonLayer) geojsonLayer.remove();
 
-// Step 9: Hide the loading spinner after everything loads
-document.getElementById("loader").style.display = "none";
+      geojsonLayer = L.geoJSON(data, {
+        filter: f => f.properties.Year === year, // Only show countries for selected year
+        style: f => ({
+          fillColor: getColor(f.properties.GINI_Coefficient),
+          weight: 0.5,
+          color: "#ccc",
+          fillOpacity: 0.8
+        }),
+        onEachFeature: (feature, layer) => {
+          const p = feature.properties;
+          // === Popup on click ===
+          layer.bindPopup(`
+            <strong>${p.Country}</strong><br>
+            Year: ${p.Year}<br>
+            GINI Index: ${p.GINI_Coefficient}<br>
+            GDP per Capita: $${p.GDP}<br>
+            Health Spending: $${p.Health}<br>
+            Population: ${p.Population} million
+          `);
+        }
+      }).addTo(map);
+    }
+
+    // === Step 6: Load initial map for year 2000 ===
+    updateMap(2000);
+
+    // === Step 7: Listen for year slider changes ===
+    slider.addEventListener("input", () => {
+      const year = parseInt(slider.value);
+      selectedYear.textContent = year;
+      updateMap(year); // Refresh map with new year's data
+    });
+
+    // === Step 8: Add GINI Legend on Bottom Left ===
+    const legend = L.control({ position: "bottomleft" });
+
+    legend.onAdd = function () {
+      const div = L.DomUtil.create("div", "legend");
+      div.innerHTML = `
+        <strong>GINI Index Scale</strong><br>
+        <i style="background:#c6dbef"></i> Low Inequality (under 30)<br>
+        <i style="background:#6baed6"></i> Moderate Inequality (30–39)<br>
+        <i style="background:#2171b5"></i> High Inequality (40+)<br>
+        <i style="background:#d9d9d9"></i> No Data
+      `;
+      return div;
+    };
+
+    legend.addTo(map);
+  });
