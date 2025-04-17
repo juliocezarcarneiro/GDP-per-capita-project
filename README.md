@@ -2,17 +2,14 @@
 Bootcamp Data Analytics Project 3.
 
 # Global Wealth and Wellbeing: A deeper data dive into GDP, health, and income inequality in different countries 
-
-Global Wealth and Wellbeing: A deeper data dive into GDP, health, and income inequality in different countries
-
 Authors: Anqa Javed, Humaira Enayetullah, Julio Carneiro, Shahab Eshghifard. 
 
 ## Overview
-*This project aims to analyze and visualize patterns of economic development, income inequality, and growth across different countries.
+* This project aims to analyze and visualize patterns of economic development, income inequality, and growth across different countries.
 
-*Using datasets from the Our World in Data catalog— GDP per capita, health care spending, the GINI index (a measure of income inequality), and population density—this analysis will help us understand how national wealth, public investment in health, and income are distributed
+* Using datasets from the Our World in Data catalog— GDP per capita, health care spending, the GINI index (a measure of income inequality), and population density—this analysis will help us understand how national wealth, public investment in health, and income are distributed
 
-*By highlighting regional disparities and global patterns, the visualizations will offer valuable insights into how economic resources and social outcomes are distributed, ultimately  helping understand global development dynamics.
+* By highlighting regional disparities and global patterns, the visualizations will offer valuable insights into how economic resources and social outcomes are distributed, ultimately  helping understand global development dynamics.
 
 
 ## Tools
