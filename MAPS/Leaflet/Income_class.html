@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>World Income Class by Country</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- noUiSlider -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+    h3 {
+      text-align: center;
+      margin-top: 10px;
+    }
+    #slider {
+      max-width: 600px;
+      margin: 10px auto;
+    }
+    #map {
+      height: calc(100vh - 120px);
+    }
+    .legend {
+      line-height: 18px;
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .legend i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+<h3>World Income Class by Country (2000–2023)</h3>
+<div id="slider"></div>
+<div id="map"></div>
+
+<script>
+  const map = L.map("map").setView([20, 0], 2);
+
+  // Smooth dark basemap to reduce visual clutter and fix dateline shift artifacts
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles © Esri'
+}).addTo(map);
+
+  const incomeColors = {
+    "Low-income countries": "#f03b20",
+    "Lower-middle-income countries": "#feb24c",
+    "Upper-middle-income countries": "#ffeda0",
+    "High-income countries": "#31a354",
+    "No data": "#d9d9d9"
+  };
+
+  const legend = L.control({position: 'bottomright'});
+  legend.onAdd = function () {
+    const div = L.DomUtil.create('div', 'legend');
+    for (const key in incomeColors) {
+      div.innerHTML += `<i style="background:${incomeColors[key]}"></i> ${key}<br>`;
+    }
+    return div;
+  };
+  legend.addTo(map);
+
+  d3.json('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json').then(function(world) {
+    d3.json('https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/Dashboard/Resources/countries-data.json').then(function(data) {
+      const incomeLookup = {};
+      data.forEach(d => {
+        if (!incomeLookup[d.Code]) incomeLookup[d.Code] = {};
+        incomeLookup[d.Code][d.Year] = d["Income Class"] || "No data";
+      });
+
+      const slider = document.getElementById('slider');
+      noUiSlider.create(slider, {
+        start: [2000],
+        step: 1,
+        range: {
+          min: 2000,
+          max: 2023
+        },
+        tooltips: [true],
+        format: {
+          to: value => Math.round(value),
+          from: value => Number(value)
+        }
+      });
+
+      let geojsonLayer;
+
+      function updateMap(year) {
+        if (geojsonLayer) map.removeLayer(geojsonLayer);
+        geojsonLayer = L.geoJson(world, {
+          style: function(feature) {
+            const code = feature.id;
+            const incomeClass = incomeLookup[code]?.[year] || "No data";
+            return {
+              fillColor: incomeColors[incomeClass] || "#d9d9d9",
+              weight: 1,
+              color: 'white',
+              fillOpacity: 0.7
+            };
+          },
+          onEachFeature: function(feature, layer) {
+            const code = feature.id;
+            const incomeClass = incomeLookup[code]?.[year] || "No data";
+            layer.bindPopup(`<b>${feature.properties.name}</b><br>Income Class: ${incomeClass}`);
+          }
+        }).addTo(map);
+      }
+
+      slider.noUiSlider.on('update', function(values) {
+        const year = parseInt(values[0]);
+        updateMap(year);
+      });
+
+      updateMap(2000);
+    });
+  });
+</script>
+
+</body>
+</html>
