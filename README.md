@@ -20,36 +20,20 @@ Authors: Anqa Javed, Humaira Enayetullah, Julio Carneiro, Shahab Eshghifard.
   ![tools used](https://github.com/user-attachments/assets/6786f8e2-7ae4-47c0-a1f8-5e1b4e27807e)
 
 
-## Project Goals
-* Clean and structure data
-* Process GDP, healthcare, and income data for different countries. Store the cleaned data in a structured database (e.g., PostgreSQL) for efficient querying.
-* Analyze economic patterns
-    * Compare GDP per capita across countries and regions.
-* Track growth trends over time.
-Identify economic outliers and changes in development over the past decades.
+## Data Visualizations
+* put link to map 1
+* map 2 link
+* other maps
 
 
-## Visualizations
-Make the data engaging and easy to interpret through modern visualization tools.
-Allow users to interact with data using filters and selection tools:
-* Bubble Chart (GDP vs Health Spending)
-X-axis: GDP per capita
-Y-axis: Health Spending
-Bubble size: Population
-Bubble color: Region or Gini Index
-* Choropleth Map
-World map color-coded by Gini Index
-Tooltip shows GDP & health spending
-* Correlation Heatmap
-Correlation matrix between GDP, Health Spending, Gini Index
-Add year slider to let users explore trends over time
+## Summary of findings
+* Luxanburg is the wealthiest ...
+* Soth Africa has highest income inequality
+* Canada
+* US
 
-## Research Questions
-1. How has GDP per capita changed globally since 1960?
-2. Which countries have shown the most consistent growth?
-3. What is the correlation between GDP per capita, income and inequality index and the current health expenditure per capita?
+## Limitations
 
-## Data Sources
-* World Bank Group, GDP per capita. Retrieved from: https://data.worldbank.org/indicator/NY.GDP.PCAP.CD
-* World Bank Group, Gini index. Retrieved from: https://data.worldbank.org/indicator/SI.POV.GINI
-* World Bank Group, Current health expenditure per capita (current US$). Retrieved from: https://data.worldbank.org/indicator/SH.XPD.CHEX.PC.CD
+
+## References 
+* Our World in data 
