@@ -166,7 +166,7 @@
     <div class="event">
       <div class="dot"></div>
       <strong>2000</strong><br>
-      <span class="text-muted small">Luxembourg is the richest country, but doesn’t spend much on health.</span>
+      <span class="text-muted small">Luxembourg is the richest country, but doesn't spend much on health.</span>
     </div>
 
     <div class="event">
@@ -250,7 +250,6 @@
 
 </div>
 
-
     <!-- Economic Trends Section -->
     <h2 class="section-title">Economic Trends Over Time</h2>
     <div class="row">
@@ -267,39 +266,48 @@
       </div>
     </div>
 
-    <!-- Comparative Analysis Section -->
-    <h2 class="section-title">Comparative Analysis</h2>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-title">GDP vs. Population Density</div>
-          <div class="chart-container" id="barGDPvsDensity"></div>
-          <div class="chart-description">
-            <p><strong>What this shows:</strong> How the wealthiest countries compare in terms of population density.</p>
-            <p><strong>Why it matters:</strong> Reveals whether wealth is associated with crowded or spacious living conditions.</p>
-            <p><strong>Key observation:</strong> There's no clear pattern - wealthy countries exist at various density levels.</p>
-            <p><strong>Tip:</strong> Look for outliers - wealthy countries with very high or very low density.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-title">GDP vs. Population Density with Health Spending</div>
-          <div class="chart-container" id="bubbleGDPvsDensity"></div>
-          <div class="chart-description">
-            <p><strong>What this shows:</strong> Relationship between wealth (vertical), density (horizontal), and health spending (bubble size).</p>
-            <p><strong>Why it matters:</strong> Reveals how these three important factors interact across countries.</p>
-            <p><strong>Key patterns:</strong> 
-              <ul>
-                <li>Bubbles generally get larger as you move up (wealthier countries spend more on health)</li>
-                <li>No clear left-right pattern (density doesn't strongly predict wealth)</li>
-              </ul>
-            </p>
-            <p><strong>How to read:</strong> Hover over bubbles to see country details.</p>
-          </div>
-        </div>
+<!-- Comparative Analysis Section -->
+<h2 class="section-title">Comparative Analysis</h2>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-title">GDP vs. Population Density with Health Spending</div>
+      <div class="chart-container" id="bubbleGDPvsDensity"></div>
+      <div class="chart-description">
+        <p>This visualization reveals how wealth, health investment, and population characteristics interact globally.</p>
+        
+        <h5>How to Read This Graph</h5>
+        <ul style="margin-bottom: 15px;">
+          <li style="margin-bottom: 8px;">
+            <strong>Bottom (X-axis):</strong> A country's wealth (GDP per person). Further right = richer country.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Left (Y-axis):</strong> Health spending per person. Higher up = spends more on healthcare.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Bubble Size:</strong> Country's total population. Bigger bubble = more people live there.
+          </li>
+          <li>
+            <strong>Bubble Color:</strong> How crowded the country is (population density). Darker color = more people per square kilometer.
+          </li>
+        </ul>
+        
+        <p><strong>Analysis:</strong></p>
+        <ul style="margin-bottom: 15px;">
+          <li style="margin-bottom: 8px;">
+            <strong>GDP x Health Spending Link:</strong> Richer countries (right side) typically spend more on healthcare (top).
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Population Impact:</strong> Large-population countries (big bubbles) often show lower per-capita health spending, even with high total investment, highlighting resource distribution challenges.
+          </li>
+          <li>
+            <strong>Density Disparities:</strong> Countries with similar GDP levels show different health spending patterns.
+          </li>
+        </ul>
       </div>
     </div>
+  </div>
+</div>
 
     <!-- Authors Section -->
     <div class="card mt-5">
@@ -374,7 +382,6 @@
       const yearData = filterData();
       if (yearData.length > 0) {
         drawLineGDPChart();
-        drawBarGDPvsDensityChart(yearData);
         drawBubbleGDPvsDensityChart(yearData);
         drawMiniCharts(yearData);
       } else {
@@ -443,59 +450,81 @@
       }, { responsive: true });
     }
   
-    function drawBarGDPvsDensityChart(data) {
-      // Sort by GDP and take top 15 for better readability
-      const topCountries = data.sort((a, b) => b["GDP per Capita"] - a["GDP per Capita"]).slice(0, 15);
-  
-      Plotly.newPlot("barGDPvsDensity", [{
-        x: topCountries.map(d => d.Country),
-        y: topCountries.map(d => d["GDP per Capita"]),
-        type: 'bar',
-        marker: { color: colors.gdp }
-      }], {
-        margin: { ...marginSettings.large, b: 100 }, // Extra bottom margin for x-axis labels
-        xaxis: { 
-          title: 'Country',
-          tickangle: -45,
-          automargin: true
-        },
-        yaxis: { title: 'GDP per Capita (USD)' },
-        plot_bgcolor: colors.background
-      }, { responsive: true });
-    }
-  
     function drawBubbleGDPvsDensityChart(data) {
-  // Ensure the data is filtered and populated correctly
-  data = data.filter(d => d["GDP per Capita"] !== null && d["Health Expenditure"] !== null);
-  
-  const trace = {
-    x: data.map(d => +d["GDP per Capita"]),
-    y: data.map(d => +d["Health Expenditure"]),
-    text: data.map(d => d["Country"]),
-    mode: 'markers',
-    marker: {
-      size: data.map(d => +d["Population"] / 100),
-      sizemode: 'area',
-      sizeref: 0.05 * Math.max(...data.map(d => +d["Population"])) / (100**2),
-      sizemin: 4,
-      color: data.map(d => +d["Population"]),
-      colorscale: 'Rainbow',
-      showscale: true,
-      colorbar: { title: "Population" }
-    },
-    type: 'scatter'
-  };
+      // Filter and clean the data
+      const cleanData = data.filter(d => 
+        d["GDP per Capita"] !== null && 
+        d["Health Expenditure"] !== null &&
+        d["Population Density"] !== null
+      );
 
-  const layout = {
-    title: 'GDP per Capita vs Health Spending',
-    xaxis: { title: 'GDP per Capita (USD)', type: 'log' },
-    yaxis: { title: 'Health Spending per person',type: 'log' },
-    margin: marginSettings.large,
-    hovermode: 'closest'
-  };
+      // Calculate size scaling factors
+      const popValues = cleanData.map(d => +d["Population"]);
+      const maxPop = Math.max(...popValues);
+      const minPop = Math.min(...popValues);
+      
+      // Create bubble chart with optimized sizing
+      const trace = {
+        x: cleanData.map(d => +d["GDP per Capita"]),
+        y: cleanData.map(d => +d["Health Expenditure"]),
+        text: cleanData.map(d => 
+          `${d.Country}<br>GDP: $${d["GDP per Capita"].toLocaleString()}<br>Health: $${d["Health Expenditure"].toLocaleString()}<br>Density: ${d["Population Density"].toLocaleString()}/km²`
+        ),
+        mode: 'markers',
+        marker: {
+          size: cleanData.map(d => {
+            // Logarithmic scaling for size
+            const logPop = Math.log10(+d["Population"]);
+            const logMax = Math.log10(maxPop);
+            const logMin = Math.log10(minPop);
+            return 8 + ((logPop - logMin) / (logMax - logMin)) * 20; // Range 8-28px
+          }),
+          sizemode: 'diameter',
+          sizeref: 0.8, // Increased to reduce overlap
+          color: cleanData.map(d => +d["Population Density"]),
+          colorscale: 'Portland', // High-contrast colors
+          cmin: d3.quantile(cleanData.map(d => +d["Population Density"]), 0.1),
+          cmax: d3.quantile(cleanData.map(d => +d["Population Density"]), 0.9),
+          showscale: true,
+          colorbar: {
+            title: 'Density (people/km²)',
+            thickness: 20
+          },
+          opacity: 0.85,
+          line: {
+            width: 1.2,
+            color: 'rgba(0,0,0,0.4)'
+          }
+        },
+        type: 'scatter'
+      };
 
-  Plotly.newPlot('bubbleGDPvsDensity', [trace], layout, { responsive: true });
-}
+      const layout = {
+        title: `GDP vs. Health Spending by Density (${selectedYear})`,
+        xaxis: { 
+          title: 'GDP per Capita (USD)',
+          type: 'linear',
+          range: [0, d3.max(cleanData, d => +d["GDP per Capita"]) * 1.15]
+        },
+        yaxis: { 
+          title: 'Health Spending per Capita (USD)',
+          type: 'linear',
+          range: [0, d3.max(cleanData, d => +d["Health Expenditure"]) * 1.15]
+        },
+        margin: {...marginSettings.large, b: 100, r: 40},
+        hovermode: 'closest',
+        showlegend: false,
+        hoverlabel: {
+          bgcolor: 'white',
+          font: {
+            size: 12,
+            color: 'black'
+          }
+        }
+      };
+
+      Plotly.newPlot('bubbleGDPvsDensity', [trace], layout, { responsive: true });
+    }
 
 </script>
 </body>
