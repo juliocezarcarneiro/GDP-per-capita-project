@@ -14,11 +14,14 @@ This project aims to analyze and visualize patterns of socioeconomic development
     * Open Dashboard/index.html in a browser
 3. The map automatically loads the dashboard with interactive visualizations to understand how different countries have developed over the years.
 
+## Data Ethics
+
+
 
 ## Data Visualizations
-* put link to map 1
-* map 2 link
-* other maps
+* Economic Indicators Dashbord - (https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/Dashboard/index.html)
+* GINI Index Map - ([https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/choropleth_map/index.html)
+* Other maps 
 
 
 ## Summary of findings
