@@ -150,60 +150,59 @@
       <p class="lead">A deeper data dive into GDP, health, and income inequality in different countries</p>
     </div>
 
-<!-- Dashboard Intro -->
-<div class="my-4 p-3 bg-white rounded shadow-sm border-start border-4 border-info">
-  <h5 class="text-info">Interactive Economic Dashboard</h5>
-  <p class="mb-0 text-muted">This dashboard allows you to explore global economic indicators by year. Use the control below to filter the year and interact with each chart to uncover trends in GDP per capita, health spending, and income inequality across countries.</p>
-</div>
+    <div class="row mt-5">
 
-<!-- Luxembourg Story Timeline -->
-<div class="my-4 p-4 bg-light rounded shadow-sm border-start border-4 border-success">
-  <h6 class="text-success mb-4">📈 Luxembourg's Economic Journey (2000 - 2021)</h6>
-
-  <div class="timeline-horizontal mb-3">
-    <div class="line"></div>
-
-    <div class="event">
-      <div class="dot"></div>
-      <strong>2000</strong><br>
-      <span class="text-muted small">Luxembourg is the richest country, but doesn't spend much on health.</span>
+<!-- Dashboard Intro and Maps Section -->
+<div class="row my-4">
+  <!-- Dashboard Intro -->
+  <div class="col-md-6 mb-3 mb-md-0">
+    <div class="p-3 bg-white rounded shadow-sm border-start border-4 border-info h-100">
+      <h5 class="text-info mb-2">🌐 Interactive Economic Dashboard</h5>
+      <p class="text-muted mb-0">
+        Explore trends in global GDP per capita, health spending, and income inequality. Use the selector below to filter by year and interact with the charts.
+      </p>
     </div>
+  </div>
 
-    <div class="event">
-      <div class="dot"></div>
-      <strong>2005</strong><br>
-      <span class="text-muted small">Still the richest, and now spends the most on health too.</span>
-    </div>
+  <!-- Vertical Divider -->
+  <div class="col-md-1 d-none d-md-flex justify-content-center align-items-center">
+    <div style="width: 1px; height: 80%; background-color: #ccc;"></div>
+  </div>
 
-    <div class="event">
-      <div class="dot"></div>
-      <strong>2012</strong><br>
-      <span class="text-muted small">Qatar becomes the richest. Luxembourg moves to 2nd place and drops in health spending.</span>
-    </div>
-
-    <div class="event">
-      <div class="dot"></div>
-      <strong>2014</strong><br>
-      <span class="text-muted small">Still 2nd richest, and now 4th in health spending.</span>
-    </div>
-
-    <div class="event">
-      <div class="dot"></div>
-      <strong>2021</strong><br>
-      <span class="text-muted small">Luxembourg is the richest again and ranks 3rd in health spending.</span>
+  <!-- Maps Section -->
+  <div class="col-md-5">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body text-center p-3">
+        <h5 class="card-title text-primary mb-2">🗺️ Interactive Maps</h5>
+        <p class="card-text mb-2">
+          Visualize global data through the following interactive maps:
+        </p>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html" target="_blank">
+              🌍 Choropleth Map – Global Wealth & Wellbeing
+            </a>
+          </li>
+          <li>
+            <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html" target="_blank">
+              💲 Income Class Map – Economic Classifications by Country
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 
-    <!-- Controls -->
-    <div class="controls-card">
-      <div class="row">
-        <div class="col-md-6">
-          <label for="yearSelect" class="form-label">Select Year:</label>
-          <select id="yearSelect" class="form-select"></select>
-        </div>
-      </div>
+<!-- Controls -->
+<div class="controls-card my-4">
+  <div class="row">
+    <div class="col-md-6">
+      <label for="yearSelect" class="form-label">Select Year:</label>
+      <select id="yearSelect" class="form-select"></select>
     </div>
+  </div>
+</div>
 
 <!-- Key Insights Section -->
 <h2 class="section-title">Key Insights</h2>
@@ -285,7 +284,7 @@
             <strong>Left (Y-axis):</strong> Health spending per person. Higher up = spends more on healthcare.
           </li>
           <li style="margin-bottom: 8px;">
-            <strong>Bubble Size:</strong> Country's total population. Bigger bubble = more people live there.
+            <strong>Bubble Size:</strong> Country's total population density. Bigger bubble = more people live there.
           </li>
           <li>
             <strong>Bubble Color:</strong> How crowded the country is (population density). Darker color = more people per square kilometer.
@@ -295,7 +294,7 @@
         <p><strong>Analysis:</strong></p>
         <ul style="margin-bottom: 15px;">
           <li style="margin-bottom: 8px;">
-            <strong>GDP x Health Spending Link:</strong> Richer countries (right side) typically spend more on healthcare (top).
+            <strong>GDP x Health Spending:</strong> Richer countries (right side) typically spend more on healthcare (top).
           </li>
           <li style="margin-bottom: 8px;">
             <strong>Population Impact:</strong> Large-population countries (big bubbles) often show lower per-capita health spending, even with high total investment, highlighting resource distribution challenges.
@@ -309,6 +308,47 @@
   </div>
 </div>
 
+<!-- Luxembourg Story Timeline -->
+<div class="my-4 p-4 bg-light rounded shadow-sm border-start border-4 border-success">
+  <h6 class="text-success mb-4">📈 Luxembourg's Economic Journey (2000 - 2021)</h6>
+
+  <div class="timeline-horizontal mb-3">
+    <div class="line"></div>
+
+    <div class="event">
+      <div class="dot"></div>
+      <strong>2000</strong><br>
+      <span class="text-muted small">Luxembourg is the richest country, but doesn't spend much on health.</span>
+    </div>
+
+    <div class="event">
+      <div class="dot"></div>
+      <strong>2005</strong><br>
+      <span class="text-muted small">Still the richest, and now spends the most on health too.</span>
+    </div>
+
+    <div class="event">
+      <div class="dot"></div>
+      <strong>2012</strong><br>
+      <span class="text-muted small">Qatar becomes the richest. Luxembourg moves to 2nd place and drops in health spending.</span>
+    </div>
+
+    <div class="event">
+      <div class="dot"></div>
+      <strong>2014</strong><br>
+      <span class="text-muted small">Still 2nd richest, and now 4th in health spending.</span>
+    </div>
+
+    <div class="event">
+      <div class="dot"></div>
+      <strong>2021</strong><br>
+      <span class="text-muted small">Luxembourg is the richest again and ranks 3rd in health spending.</span>
+    </div>
+  </div>
+</div>
+
+    
+
     <!-- Authors Section -->
     <div class="card mt-5">
       <div class="card-body text-center">
@@ -317,6 +357,28 @@
         <p class="card-text">Bootcamp UofT and edX</p>
       </div>
     </div>
+
+    <!-- Maps Section Bottom -->
+<div class="card mt-5">
+  <div class="card-body text-center">
+    <h5 class="card-title">Maps</h5>
+    <p class="card-text">
+      Take a deeper look at our data through these interactive visualizations:
+    </p>
+    <ul class="list-unstyled">
+      <li>
+        <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html" target="_blank">
+          🌍 Choropleth Map – Visualizing Global Wealth and Wellbeing by Country
+        </a>
+      </li>
+      <li>
+        <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html" target="_blank">
+          💲 Income Class Map – Categorizing Countries by Economic Class
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
 
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -507,7 +569,7 @@
           range: [0, d3.max(cleanData, d => +d["GDP per Capita"]) * 1.15]
         },
         yaxis: { 
-          title: 'Health Spending per Capita (USD)',
+          title: 'Health Spending per Person (USD)',
           type: 'linear',
           range: [0, d3.max(cleanData, d => +d["Health Expenditure"]) * 1.15]
         },
