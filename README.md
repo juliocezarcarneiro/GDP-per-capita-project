@@ -15,9 +15,9 @@ This project aims to analyze and visualize patterns of socioeconomic development
 3. The map automatically loads the dashboard with interactive visualizations to understand how different countries have developed over the years.
 
 ## 📌 Research Questions 
-1. How has the wealth of the world’s top 10 richest countries evolved over time?
-2. What’s the relationship between population density, national wealth, and health spending?
-3. How have global living standards evolved over time, and who benefits the most?
+1. How has the wealth of the world’s top 10 richest countries evolved over time?  
+2. How have global living standards evolved over time, and who benefits the most?
+3. What is the relationship between population density, national wealth, and health spending?
 4. Has income inequality decrease over time?
 
 
