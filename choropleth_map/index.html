@@ -1,74 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Visualizing Global Wealth Gaps 🌍</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Load Leaflet CSS for the interactive map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <!-- Page title that shows on browser tab -->
+    <title>Visualizing Global Wealth Gaps 🌍</title>
 
-  <!-- Load Chart.js library for drawing bar & line charts -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Link to Leaflet CSS (needed for map styling) -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
 
-  <!-- Custom CSS for styling this dashboard -->
-  <link rel="stylesheet" href="style.css" />
-</head>
+    <!-- Link to Chart.js (used for bar chart + line chart) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<body>
-  <div class="container">
+    <!-- Our own custom CSS file (where we style everything) -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-    <!-- ====== Title and Subtitle ====== -->
-    <h1 class="main-title">Visualizing Global Wealth Gaps 🌍</h1>
+  <body>
+    <!-- ===== Main Content Container ===== -->
+    <div class="container">
+      <!-- ===== Title & Subtitle ===== -->
+      <h1>Visualizing Global Wealth Gaps 🌍</h1>
 
-    <!-- Descriptive subtitle split across two lines -->
-    <p class="subtitle">
-      Choropleth + Chart Dashboard <br>
-      <span class="sub-highlight">using GINI, GDP, Health, and Population (2000–2022)</span>
-    </p>
+      <!-- This subtitle tells the user what the project is about -->
+      <p class="subtitle">
+        Choropleth + Chart Dashboard using GINI, GDP, Health & Population
+        (2000–2022)
+      </p>
 
-    <!-- ====== Year Range Slider ====== -->
-    <div class="slider-container">
-      <label for="yearSlider">Select Year:</label>
-      <input type="range" id="yearSlider" min="2000" max="2022" value="2000" />
-      <span id="selectedYear">2000</span>
-    </div>
+      <!-- ===== Year Slider Area (Top-Right) ===== -->
+      <div class="slider-right">
+        <!-- Label for the year slider -->
+        <label for="yearSlider"><strong>Select Year:</strong></label>
 
-    <!-- ====== Choropleth Map Section ====== -->
-    <div id="map"></div>
+        <!-- Year slider input (range: 2000 to 2022) -->
+        <input
+          type="range"
+          id="yearSlider"
+          min="2000"
+          max="2022"
+          value="2000"
+        />
 
-    <!-- ====== Dual Chart Section ====== -->
-    <div class="chart-row">
-
-      <!-- === Left Side: Bar Chart === -->
-      <div class="chart-half">
-        <h2>Top 10 Countries by GINI Index</h2>
-        <canvas id="giniChart"></canvas>
+        <!-- Selected year label (styled in CSS) -->
+        <!-- This will dynamically update when user slides -->
+        <span id="selectedYear" class="year-label">2000 ⏳</span>
       </div>
 
-      <!-- === Right Side: Line Chart for GINI Trend === -->
-      <div class="chart-half">
-        <h2>GINI Index Over Time</h2>
+      <!-- ===== Map Area ===== -->
+      <!-- This div holds our interactive choropleth map -->
+      <div id="map"></div>
 
-        <!-- Dropdown to choose country -->
-        <label for="countrySelect">Select Country:</label>
-        <select id="countrySelect">
-          <!-- This will be filled dynamically using JavaScript -->
-        </select>
+      <!-- ===== Chart Area (Bar Chart + Line Chart) ===== -->
+      <div class="chart-row">
+        <!-- Bar Chart: Top 10 Countries by GINI -->
+        <div class="chart-half">
+          <h2>Top 10 Countries by GINI Index</h2>
+          <canvas id="giniChart"></canvas>
+        </div>
 
-        <!-- Canvas for the line chart -->
-        <canvas id="giniLineChart"></canvas>
+        <!-- Line Chart: GINI Trend Over Time -->
+        <div class="chart-half">
+          <h2>GINI Index Over Time</h2>
+
+          <!-- Dropdown for selecting country -->
+          <label for="countrySelect">Select Country:</label>
+          <select id="countrySelect"></select>
+
+          <!-- Canvas for drawing the line chart -->
+          <canvas id="giniLineChart"></canvas>
+        </div>
       </div>
     </div>
 
-  
-  </div>
+    <!-- ===== External JavaScript Files ===== -->
 
-  <!-- Leaflet JS for Map -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet library JS (needed for maps) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- Your custom JavaScript files -->
-  <script src="map.js"></script>
-  <script src="chart.js"></script>
-</body>
+    <!-- Custom map script (handles drawing the choropleth) -->
+    <script src="map.js"></script>
+
+    <!-- Custom chart script (handles the bar and line charts) -->
+    <script src="chart.js"></script>
+  </body>
 </html>

@@ -1,153 +1,203 @@
 // === chart.js ===
-// This file handles two charts:
-// 1. A bar chart showing Top 10 countries by average GINI index (2000–2022)
-// 2. A line chart showing GINI index trend for a specific country (default is Canada)
+// This file handles:
+// 1. Top 10 Countries by Average GINI (Bar Chart)
+// 2. GINI Trend by Country (Line Chart)
 
-// Global chart variables
-let giniChart;      // Bar chart for top 10
-let lineChart;      // Line chart for country trend
-let allFeatures = []; // Store all data from the JSON file
+// Global variables to store charts and data
+let giniChart;
+let lineChart;
+let allFeatures = [];
 
-// Load the cleaned GeoJSON data
+// === Step 1: Load the JSON data file ===
 fetch("choropleth_map_clean.json")
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     allFeatures = data.features;
 
-    // Draw both charts once the data is loaded
-    drawAverageGiniBarChart();  // Draw bar chart
-    drawLineChart("Canada");    // Draw line chart for Canada
+    // Draw both charts when data is loaded
+    drawAverageGiniBarChart();
+    populateCountryDropdown(); // Fill the dropdown once
+    drawLineChart("Canada"); // Default line chart for Canada
   });
 
-// === Function 1: Top 10 Countries by AVERAGE GINI (2000–2022) ===
+// === Step 2: Bar Chart - Top 10 Countries by Average GINI ===
 function drawAverageGiniBarChart() {
-  const giniMap = {};  // Object to store GINI values per country
+  const giniMap = {}; // Stores country → list of GINI values
 
-  // Step 1: Group all GINI values by country
-  allFeatures.forEach(f => {
+  // Group GINI values per country
+  allFeatures.forEach((f) => {
     const country = f.properties.Country;
     const gini = f.properties.GINI_Coefficient;
 
-    // Make sure data is valid
-    if (country && gini && gini !== "No data") {
-      if (!giniMap[country]) {
-        giniMap[country] = []; // Start a list if not already there
-      }
+    // Only keep valid numeric values
+    if (country && gini !== null && gini !== "No data") {
+      if (!giniMap[country]) giniMap[country] = [];
       giniMap[country].push(parseFloat(gini));
     }
   });
 
-  // Step 2: Calculate the average GINI for each country
+  // Calculate averages
   const avgGINIs = [];
-
   for (const country in giniMap) {
     const values = giniMap[country];
     const avg = values.reduce((a, b) => a + b, 0) / values.length;
     avgGINIs.push({ country, avg });
   }
 
-  // Step 3: Sort the averages from highest to lowest and take top 10
+  // Get top 10 countries by average GINI
   const top10 = avgGINIs.sort((a, b) => b.avg - a.avg).slice(0, 10);
-  const labels = top10.map(item => item.country);
-  const values = top10.map(item => item.avg.toFixed(3)); // Round to 3 decimal places
+  const labels = top10.map((d) => d.country);
+  const values = top10.map((d) => d.avg.toFixed(3));
 
-  // Step 4: Draw the bar chart
+  // Create or update chart
   const ctx = document.getElementById("giniChart").getContext("2d");
+  if (giniChart) giniChart.destroy(); // Remove old chart if it exists
 
   giniChart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
-      datasets: [{
-        label: "Average GINI (2000–2022)",
-        data: values,
-        backgroundColor: "#6baed6",   // Light blue bars
-        borderColor: "#2171b5",       // Darker blue outline
-        borderWidth: 1
-      }]
+      datasets: [
+        {
+          label: "Average GINI (2000–2022)",
+          data: values,
+          backgroundColor: "#6baed6",
+          borderColor: "#2171b5",
+          borderWidth: 1,
+        },
+      ],
     },
     options: {
-      responsive: true,
       plugins: {
         title: {
           display: true,
-          text: "Top 10 Countries by Average GINI (2000–2022)"
+          text: "Top 10 Countries by Average GINI (2000–2022)",
         },
-        legend: {
-          display: false // No legend needed for a single dataset
-        }
+        legend: { display: false },
       },
       scales: {
         y: {
           beginAtZero: true,
           title: {
             display: true,
-            text: "Average GINI Index"
-          }
-        }
-      }
-    }
+            text: "Average GINI Index",
+          },
+        },
+      },
+    },
   });
 }
 
-// === Function 2: GINI Trend Line Chart for a Country (Default: Canada) ===
+// === Step 3: Fill Dropdown with Country Names ===
+function populateCountryDropdown() {
+  const dropdown = document.getElementById("countrySelect");
+
+  // If already filled, skip
+  if (dropdown.options.length > 0) return;
+
+  const countrySet = new Set();
+  allFeatures.forEach((f) => {
+    if (f.properties.Country) {
+      countrySet.add(f.properties.Country);
+    }
+  });
+
+  const sortedCountries = Array.from(countrySet).sort();
+
+  sortedCountries.forEach((country) => {
+    const option = document.createElement("option");
+    option.value = country;
+    option.textContent = country;
+    dropdown.appendChild(option);
+  });
+
+  dropdown.value = "Canada"; // Set default
+
+  // When user selects a different country
+  dropdown.addEventListener("change", () => {
+    drawLineChart(dropdown.value);
+  });
+}
+
+// === Step 4: Line Chart - GINI Trend for Selected Country ===
 function drawLineChart(countryName) {
-  // Step 1: Filter only the data for the selected country
+  // Filter data for selected country and remove nulls
   const filtered = allFeatures
-    .filter(f =>
-      f.properties.Country === countryName &&
-      f.properties.GINI_Coefficient &&
-      f.properties.GINI_Coefficient !== "No data"
+    .filter(
+      (f) =>
+        f.properties.Country === countryName &&
+        f.properties.GINI_Coefficient !== null &&
+        f.properties.GINI_Coefficient !== "No data"
     )
-    .sort((a, b) => a.properties.Year - b.properties.Year); // Sort by year
+    .sort((a, b) => a.properties.Year - b.properties.Year);
 
-  // Step 2: Extract years and GINI values
-  const years = filtered.map(f => f.properties.Year);
-  const values = filtered.map(f => parseFloat(f.properties.GINI_Coefficient));
+  // Get the chart container area
+  const container = document.getElementById("giniLineChart").parentElement;
 
-  // Step 3: Draw the line chart
+  // If no data is found, show error message
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <h2>GINI Index Over Time</h2>
+      <label for="countrySelect">Select Country:</label>
+      <select id="countrySelect"></select>
+      <p style="color:#b22222; font-weight:bold; margin-top:20px;">
+        Sorry, no GINI Index data is available for <u>${countryName}</u>.
+      </p>
+    `;
+    populateCountryDropdown(); // refill dropdown
+    document.getElementById("countrySelect").value = countryName;
+    return;
+  }
+
+  // If valid data exists, recreate canvas + dropdown
+  container.innerHTML = `
+    <h2>GINI Index Over Time</h2>
+    <label for="countrySelect">Select Country:</label>
+    <select id="countrySelect"></select>
+    <canvas id="giniLineChart"></canvas>
+  `;
+
+  populateCountryDropdown();
+  document.getElementById("countrySelect").value = countryName;
+
+  const years = filtered.map((f) => f.properties.Year);
+  const values = filtered.map((f) => parseFloat(f.properties.GINI_Coefficient));
+
   const ctx = document.getElementById("giniLineChart").getContext("2d");
 
-  // Destroy previous chart if exists
-  if (lineChart) {
-    lineChart.destroy();
-  }
+  if (lineChart) lineChart.destroy();
 
   lineChart = new Chart(ctx, {
     type: "line",
     data: {
       labels: years,
-      datasets: [{
-        label: `GINI Index - ${countryName}`,
-        data: values,
-        borderColor: "#2171b5",     // Line color
-        backgroundColor: "#6baed6", // Dot color
-        fill: false,
-        tension: 0.3
-      }]
+      datasets: [
+        {
+          label: `GINI Index - ${countryName}`,
+          data: values,
+          borderColor: "#2171b5",
+          backgroundColor: "#6baed6",
+          fill: false,
+          tension: 0.3,
+        },
+      ],
     },
     options: {
       responsive: true,
       plugins: {
         title: {
           display: true,
-          text: `GINI Index Over Time for ${countryName}`
-        }
+          text: `GINI Index Trend for ${countryName}`,
+        },
       },
       scales: {
         y: {
-          title: {
-            display: true,
-            text: "GINI Index"
-          }
+          title: { display: true, text: "GINI Index" },
         },
         x: {
-          title: {
-            display: true,
-            text: "Year"
-          }
-        }
-      }
-    }
+          title: { display: true, text: "Year" },
+        },
+      },
+    },
   });
 }
