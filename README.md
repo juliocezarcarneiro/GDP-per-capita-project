@@ -21,7 +21,7 @@ This project aims to analyze and visualize patterns of socioeconomic development
 ## Data Visualizations
 * [Economic Indicators Dashbord](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/Dashboard/index.html)
 * [GINI Index Map](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/choropleth_map/index.html)
-* [Other maps ](https://juliocezarcarneiro.github.io/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
+* [Other maps ](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
 
 
 ## Summary of findings
