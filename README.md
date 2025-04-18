@@ -27,13 +27,13 @@ Throughout this project, we tried our best to use data in a fair and responsible
 ## 📊 Data Visualizations
 * [Economic Indicators Dashbord](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/Dashboard/index.html)
 * [GINI Index Map](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/choropleth_map/index.html)
-* [Other maps 1](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
-* [Other maps 2](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html)
+* [Other map 1](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
+* [Other map 2](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html)
 * [Other map 3](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html)
 
 
 ## 📝 Summary of findings
-* Luxanburg is the wealthiest ...
+* Luxembourg is the wealthiest nation and the third largest in healthcare expenditure
 * Soth Africa has highest income inequality
 * Canada
 * US
