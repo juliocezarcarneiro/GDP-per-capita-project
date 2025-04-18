@@ -31,11 +31,13 @@ This project aims to analyze and visualize patterns of socioeconomic development
 
 ## 📝 Summary of findings
 * Luxembourg is the wealthiest nation and the third largest in healthcare expenditure
-* Soth Africa has highest income inequality
+* Switzerland spend the most on healthcare followed by other European countries like Austria and Germany as these countries have universal healthcare systems. Their populations are older on average, meaning more people require chronic care, long-term treatments, and age-related services.
 * Canada
 * US
 
 ## ⚠️  Limitations
+* Some countries had no data, so it was hard to make conclusions about their overall development
+* 
 
 ## 🧭 Data Ethical Considerations
 Throughout this project, we tried our best to use data in a fair and responsible way. The datasets we used like GDP, GINI Index, Health Spending, and Population came from trusted public sources. We made sure to clean and organize the data carefully, without introducing any bias or misrepresenting any countries. When some data was missing or marked as "No data," we chose to show it as null rather than guessing or filling it in, so everything stayed honest and transparent. Our goal with the visuals was to help people understand global trends, not to mislead or reinforce stereotypes. We also made sure to mention any limitations in the data so viewers don’t make incorrect conclusions.
