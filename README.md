@@ -8,31 +8,38 @@ This project aims to analyze and visualize patterns of socioeconomic development
 ## Tools Used
 ![tools used](https://github.com/user-attachments/assets/6786f8e2-7ae4-47c0-a1f8-5e1b4e27807e)
 
-## Setup Instructions
+## ⚙️ Setup Instructions
 1. Clone this repository to your local machine: git clone https://github.com/your-username/global-wealth-and-wellbeing.git
 2. Steps to Reproduce the Project
     * Open Dashboard/index.html in a browser
 3. The map automatically loads the dashboard with interactive visualizations to understand how different countries have developed over the years.
 
-## Data Ethics
+## 🧭 Data Ethical Considerations
+Throughout this project, we tried our best to use data in a fair and responsible way. The datasets we used like GDP, GINI Index, Health Spending, and Population came from trusted public sources. We made sure to clean and organize the data carefully, without introducing any bias or misrepresenting any countries. When some data was missing or marked as "No data," we chose to show it as null rather than guessing or filling it in, so everything stayed honest and transparent. Our goal with the visuals was to help people understand global trends, not to mislead or reinforce stereotypes. We also made sure to mention any limitations in the data so viewers don’t make incorrect conclusions.
+
+## 📌 Research Questions 
+1. How has the wealth of the world’s top 10 richest countries evolved over time?
+2. What’s the relationship between population density, national wealth, and health spending?
+3. How have global living standards evolved over time, and who benefits the most?
+4. Has income inequality decrease over time?
 
 
-
-## Data Visualizations
+## 📊 Data Visualizations
 * [Economic Indicators Dashbord](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/Dashboard/index.html)
 * [GINI Index Map](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/choropleth_map/index.html)
-* [Other maps1](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
-* [Other maps2](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html)
+* [Other maps 1](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
+* [Other maps 2](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html)
+* [Other map 3](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html)
 
 
-## Summary of findings
+## 📝 Summary of findings
 * Luxanburg is the wealthiest ...
 * Soth Africa has highest income inequality
 * Canada
 * US
 
-## Limitations
+## ⚠️  Limitations
 
 
-## References 
-* Our World in data 
+## 📚 References 
+* Our World in Data – https://ourworldindata.org
