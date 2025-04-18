@@ -14,9 +14,6 @@ This project aims to analyze and visualize patterns of socioeconomic development
     * Open Dashboard/index.html in a browser
 3. The map automatically loads the dashboard with interactive visualizations to understand how different countries have developed over the years.
 
-## 🧭 Data Ethical Considerations
-Throughout this project, we tried our best to use data in a fair and responsible way. The datasets we used like GDP, GINI Index, Health Spending, and Population came from trusted public sources. We made sure to clean and organize the data carefully, without introducing any bias or misrepresenting any countries. When some data was missing or marked as "No data," we chose to show it as null rather than guessing or filling it in, so everything stayed honest and transparent. Our goal with the visuals was to help people understand global trends, not to mislead or reinforce stereotypes. We also made sure to mention any limitations in the data so viewers don’t make incorrect conclusions.
-
 ## 📌 Research Questions 
 1. How has the wealth of the world’s top 10 richest countries evolved over time?
 2. What’s the relationship between population density, national wealth, and health spending?
@@ -40,6 +37,8 @@ Throughout this project, we tried our best to use data in a fair and responsible
 
 ## ⚠️  Limitations
 
+## 🧭 Data Ethical Considerations
+Throughout this project, we tried our best to use data in a fair and responsible way. The datasets we used like GDP, GINI Index, Health Spending, and Population came from trusted public sources. We made sure to clean and organize the data carefully, without introducing any bias or misrepresenting any countries. When some data was missing or marked as "No data," we chose to show it as null rather than guessing or filling it in, so everything stayed honest and transparent. Our goal with the visuals was to help people understand global trends, not to mislead or reinforce stereotypes. We also made sure to mention any limitations in the data so viewers don’t make incorrect conclusions.
 
 ## 📚 References 
 * Our World in Data – https://ourworldindata.org
