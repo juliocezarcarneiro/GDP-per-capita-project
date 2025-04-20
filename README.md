@@ -15,10 +15,10 @@ This project aims to analyze and visualize patterns of socioeconomic development
 3. The map automatically loads the dashboard with interactive visualizations to understand how different countries have developed over the years.
 
 ## 📌 Research Questions 
-1. How has the wealth of the world’s top 10 richest countries evolved over time?  
+1. How has the wealth of the world’s top richest countries evolved over time?  
 2. How have global living standards evolved over time, and who benefits the most?
 3. What is the relationship between population density, national wealth, and health spending?
-4. Has income inequality decrease over time?
+4. How has the global GINI Index changed over time across countries?
 
 
 ## 📊 Data Visualizations
@@ -44,3 +44,4 @@ Throughout this project, we tried our best to use data in a fair and responsible
 
 ## 📚 References 
 * Our World in Data – https://ourworldindata.org
+* OpenAI. (2025). ChatGPT – Retrieved from https://openai.com/chatgpt
