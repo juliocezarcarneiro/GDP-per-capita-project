@@ -33,7 +33,7 @@ This project aims to analyze and visualize patterns of socioeconomic development
 * Luxembourg is the wealthiest nation and the third largest in healthcare expenditure because it has a small population and is a global finacial center with many private banking and wealth management companies. It also has tax friendly policies that attracts multination cooprporations and wealthy people to invest in the country.
 * Switzerland spend the most on healthcare followed by other European countries like Austria and Germany as these countries have universal healthcare systems. Their populations are older on average, meaning more people require chronic care, long-term treatments, and age-related services.
 * South Africa has the highest GINI scrore suggesting high income desparity. Although it is a upper middle income country, the wealth is concentrated in the hands of small minority due to the legacy of apartheid system, high unemployment, and education gap.
-* In comparison, Canada and the United States are high income countries with low population densities, but have a higher GDP and spend more on healthcare than the world average.
+* In comparison, Canada and the United States are high income countries with low population densities, but have a higher GDP and spend more on healthcare than the world average. They also have low income inequality. 
 
 ## ⚠️  Limitations
 * Some countries lacked complete or consistent data, limiting comparative analysis.
