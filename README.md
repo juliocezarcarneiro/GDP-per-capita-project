@@ -40,7 +40,7 @@ This project aims to analyze and visualize patterns of socioeconomic development
 ## ⚠️  Limitations
 * Some countries lacked complete or consistent data, limiting comparative analysis.
 * The latest data available is from 2021 for some indicators.
-* No statistical tests were performed to assess correlation or causality between variables—this project is primarily exploratory and visual.
+* No statistical tests were performed to assess correlation or causality between variables as this project focused primarily on data exploration and visualization.
 
 ## 🧭 Data Ethical Considerations
 Throughout this project, we tried our best to use data in a fair and responsible way. The datasets we used like GDP, GINI Index, Health Spending, and Population came from trusted public sources. We made sure to clean and organize the data carefully, without introducing any bias or misrepresenting any countries. When some data was missing or marked as "No data," we chose to show it as null rather than guessing or filling it in, so everything stayed honest and transparent. Our goal with the visuals was to help people understand global trends, not to mislead or reinforce stereotypes. We also made sure to mention any limitations in the data so viewers don’t make incorrect conclusions.
