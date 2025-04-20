@@ -22,14 +22,12 @@ This project aims to analyze and visualize patterns of socioeconomic development
 3. What is the relationship between population density, national wealth, and health spending?
 4. How has the global GINI Index changed over time across countries?
 
-
 ## 📊 Data Visualizations
 * [Economic Indicators Dashbord](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/Dashboard/index.html)
 * [GINI Index Map](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/choropleth_map/index.html)
 * [Other map 1](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html)
 * [Other map 2](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html)
 * [Other map 3](https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html)
-
 
 ## 📝 Summary of findings
 * Luxembourg is the wealthiest nation and the third largest in healthcare expenditure because it has a small population and is a global finacial center with many private banking and wealth management companies. It also has tax friendly policies that attracts multination cooprporations and wealthy people to invest in the country.
@@ -46,5 +44,10 @@ This project aims to analyze and visualize patterns of socioeconomic development
 Throughout this project, we tried our best to use data in a fair and responsible way. The datasets we used like GDP, GINI Index, Health Spending, and Population came from trusted public sources. We made sure to clean and organize the data carefully, without introducing any bias or misrepresenting any countries. When some data was missing or marked as "No data," we chose to show it as null rather than guessing or filling it in, so everything stayed honest and transparent. Our goal with the visuals was to help people understand global trends, not to mislead or reinforce stereotypes. We also made sure to mention any limitations in the data so viewers don’t make incorrect conclusions.
 
 ## 📚 References 
-* Our World in Data – https://ourworldindata.org
+* Leaflet Contributors. (n.d.). Leaflet.js: An open-source JavaScript library for interactive maps. Retrieved April 20, 2025, from https://leafletjs.com
 * OpenAI. (2025). ChatGPT – Retrieved from https://openai.com/chatgpt
+* Ritchie, H., Roser, M., & Ortiz-Ospina, E. (2024). GDP per capita (World Bank). Our World in Data. https://ourworldindata.org/grapher/gdp-per-capita-worldbank
+* Ritchie, H., Roser, M., & Ortiz-Ospina, E. (2024). Economic inequality (GINI Index). Our World in Data. https://ourworldindata.org/grapher/economic-inequality-gini-index?time=earliest
+* Ritchie, H., Roser, M., & Ortiz-Ospina, E. (2024). Annual healthcare expenditure per capita. Our World in Data. https://ourworldindata.org/grapher/annual-healthcare-expenditure-per-capita
+* Ritchie, H., Roser, M., & Ortiz-Ospina, E. (2024). Population density. Our World in Data. https://ourworldindata.org/grapher/population-density
+* Ritchie, H., Roser, M., & Ortiz-Ospina, E. (2024). World population data. Our World in Data. https://ourworldindata.org/grapher/population
