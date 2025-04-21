@@ -38,7 +38,7 @@
     background-color: #198754;
     border-radius: 50%;
     position: absolute;
-    top: -36px; /* aligns the dot with the line */
+    top: -36px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -141,6 +141,12 @@
       font-size: 0.95rem;
       border-left: 3px solid #3498db;
     }
+    /* Updated for authors section */
+    .authors-section {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -148,6 +154,11 @@
     <div class="dashboard-header text-center">
       <h1>Global Wealth and Wellbeing:</h1>
       <p class="lead">A deeper data dive into GDP, health, and income inequality in different countries</p>
+      <!-- Authors Section moved under subtitle -->
+      <div class="authors-section">
+        <p class="mb-1">By: Anqa Javed, Humaira Enayetullah, Julio Carneiro, Shahab Eshghifard</p>
+        <p class="mb-0">Bootcamp UofT and edX</p>
+      </div>
     </div>
 
     <div class="row mt-5">
@@ -169,27 +180,36 @@
     <div style="width: 1px; height: 80%; background-color: #ccc;"></div>
   </div>
 
-  <!-- Maps Section -->
-  <div class="col-md-5">
-    <div class="card h-100 shadow-sm">
-      <div class="card-body text-center p-3">
-        <h5 class="card-title text-primary mb-2">🗺️ Interactive Maps</h5>
-        <p class="card-text mb-2">
-          Visualize global data through the following interactive maps:
-        </p>
-        <ul class="list-unstyled mb-0">
-          <li>
-            <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html" target="_blank">
-              🌍 Choropleth Map – Global Wealth & Wellbeing
-            </a>
-          </li>
-          <li>
-            <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html" target="_blank">
-              💲 Income Class Map – Economic Classifications by Country
-            </a>
-          </li>
-        </ul>
-      </div>
+<!-- Maps Section -->
+<div class="col-md-5">
+  <div class="card h-100 shadow-sm">
+    <div class="card-body text-left p-3">
+      <h5 class="card-title text-primary mb-2">🗺️ Interactive Maps</h5>
+      <p class="card-text mb-2">
+        Visualize global data through the following interactive maps:
+      </p>
+      <ul class="list-unstyled mb-0">
+        <li>
+          <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/choropleth_map/index.html" target="_blank">
+            🧮 GINI Index Map – Global Income Inequality
+          </a>
+        </li>
+        <li>
+          <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Plotly/plotly_choropleth_gdp_gini.html" target="_blank">
+            📊 Plotly Choropleth – GDP & GINI
+          </a>
+        </li>
+        <li>
+          <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html" target="_blank">
+            🌍 Choropleth Map – Global Wealth & Wellbeing
+          </a>
+        </li>
+        <li>
+          <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html" target="_blank">
+            💲 Income Class Map – Economic Classifications by Country
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
@@ -273,7 +293,7 @@
           <div class="chart-container" id="lineTop5GDP"></div>
           <div class="chart-description">
             <p>The line chart above highlights the top 5 countries with the highest GDP per capita from 2000 to 2021. These nations consistently outperform others in terms of economic output per person, often due to a combination of small populations, strong financial sectors, high-value exports, and efficient governance. Observing their trajectories helps us understand global economic dynamics and how certain countries sustain or lose their positions over time.</p>
-            <p>Among these economic powerhouses, one country stands out for its remarkable consistency and periodic dominance — Luxembourg. Let’s take a closer look at its unique economic journey.</p>
+            <p>Among these economic powerhouses, one country stands out for its remarkable consistency and periodic dominance — Luxembourg. Let's take a closer look at its unique economic journey.</p>
           </div>
         </div>
       </div>
@@ -352,37 +372,6 @@
         </ul>
       </div>
     </div>
-  </div>
-</div>
-
-    <!-- Authors Section -->
-    <div class="card mt-5">
-      <div class="card-body text-center">
-        <h5 class="card-title">Authors</h5>
-        <p class="card-text">Anqa Javed, Humaira Enayetullah, Julio Carneiro, Shahab Eshghifard</p>
-        <p class="card-text">Bootcamp UofT and edX</p>
-      </div>
-    </div>
-
-    <!-- Maps Section Bottom -->
-<div class="card mt-5">
-  <div class="card-body text-center">
-    <h5 class="card-title">Maps</h5>
-    <p class="card-text">
-      Take a deeper look at our data through these interactive visualizations:
-    </p>
-    <ul class="list-unstyled">
-      <li>
-        <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/leaflet_choropleth_tiles.html" target="_blank">
-          🌍 Choropleth Map – Visualizing Global Wealth and Wellbeing by Country
-        </a>
-      </li>
-      <li>
-        <a href="https://juliocezarcarneiro.github.io/global-wealth-and-wellbeing/MAPS/Leaflet/Income_class.html" target="_blank">
-          💲 Income Class Map – Categorizing Countries by Economic Class
-        </a>
-      </li>
-    </ul>
   </div>
 </div>
 
@@ -629,7 +618,6 @@
 
       Plotly.newPlot('bubbleGDPvsDensity', [trace], layout, { responsive: true });
     }
-
 </script>
 </body>
 </html>
