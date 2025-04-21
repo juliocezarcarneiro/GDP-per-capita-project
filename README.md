@@ -17,7 +17,7 @@ This project aims to analyze and visualize patterns of socioeconomic development
 3. The map automatically loads the dashboard with interactive visualizations to explore how different countries have developed over the years.
 
 ## 📌 Research Questions 
-1. How has the GDP per capita and healthcare expenditure of the world’s top richest countries evolved over time?  
+1. How has the wealth of the world’s top richest countries evolved over time?  
 2. How have global living standards evolved over time, and who benefits the most?
 3. What is the relationship between population density, national wealth, and health spending?
 4. How has the global GINI Index changed over time across countries?
